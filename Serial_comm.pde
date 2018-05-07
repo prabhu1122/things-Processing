@@ -89,5 +89,38 @@ void sendMsg(int a){
   
   println(a);
   port.write(a);
-  
+ 
 }
+
+
+/*
+/*/////////////Arduino code/////////////*/
+//this code will controle an LED from the serial 
+//data coming from the processing
+//the processing code will get from the link below
+// "https://github.com/prabhu1122/things-Processing/blob/master/Serial_comm.pde " 
+
+#define led 9      //create pin 9 for led
+
+void setup(){
+    
+    Serial.begin(9600);  //start the serial port at 
+                         //boudRate 9600
+    pinMode(led,OUTPUT); //set led pin as output
+    
+}
+
+void loop(){
+    //check wheather any serial data is comming
+    if(Serial.available()>0){
+        delay(5);    //delay for stablisation
+        
+        //read the serial data 
+        int data = Serial.read();
+        int val = map(data,0,180,0,255);
+        Serial.println(val);   //print the serial data
+        analogWrite(led,val);
+    }
+    
+}
+*/
