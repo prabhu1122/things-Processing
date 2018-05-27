@@ -1,11 +1,11 @@
-//////////////////////Processing Code /////////////////////
-//  This code receive data from the arduino and get      //
-//  it in the form of string and then use that data      //
-//  in the programe.                                     //
-//  Auther of this code is Prabhat Yadav                 //
-//  link to download this code is:                       //
-//                                                       //
-///////////////////////////////////////////////////////////
+//////////////////////Processing Code ////////////////////////////////////////////
+//  This code receive data from the arduino and get                             //
+//  it in the form of string and then use that data                             //
+//  in the programe.                                                            //
+//  Auther of this code is Prabhat Yadav                                        //
+//  link to download this code is:                                              //
+//  https://github.com/prabhu1122/things-Processing/blob/master/MPU_ARDUINO.pde //
+//////////////////////////////////////////////////////////////////////////////////
 import processing.serial.*;
 Serial serial;
 int val = 0;
