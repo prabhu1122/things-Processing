@@ -12,6 +12,7 @@ String angleZ = "";
 String data = "";
 int comma_index = 0;
 int dot_index = 0;
+int size = 80;
 
 void setup() {
 
@@ -29,12 +30,15 @@ void draw() {
 
   background(0);
   fill(20, 100, 50);
+  textSize(size);
   text(angleX, width/2, 500);
 
   fill(20, 100, 50);
+  textSize(size);
   text(angleY, width/2, 1000);
 
   fill(20, 100, 50);
+  textSize(size);
   text(angleZ, width/2, 1500);
 }
 
