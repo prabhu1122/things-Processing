@@ -1,13 +1,12 @@
-
 ////////////////////////Processing Code//////////////////////
 
 import processing.serial.*;
 Serial myPort;
 
 //PFont myFont;
-String angleX = "";
-String angleY = "";
-String angleZ = "";
+int angleX = 0;
+int angleY = 0;
+int angleZ = 0;
 
 String data = "";
 int comma_index = 0;
@@ -16,11 +15,11 @@ int size = 80;
 
 void setup() {
 
-  size(displayWidth, displayHeight);
+  size(600,650);
 
-  String portName = Serial.list()[0];
+  String portName = Serial.list()[3];
   myPort =new Serial(this, portName, 9600);
-  myPort.bufferUntil("\n");
+  myPort.bufferUntil('\n');
   //myFont = loadFont("font_example.vlw");
   //textFont(myFont,80);
   
@@ -28,18 +27,18 @@ void setup() {
 
 void draw() {
 
-  background(0);
-  fill(20, 100, 50);
+  background(200);
+  fill(200, 100, 50);
   textSize(size);
-  text(angleX, width/2, 500);
+  text(angleX+"°",200, 200);
 
   fill(20, 100, 50);
   textSize(size);
-  text(angleY, width/2, 1000);
+  text(angleY+"°", 200, 400);
 
   fill(20, 100, 50);
   textSize(size);
-  text(angleZ, width/2, 1500);
+  text(angleZ+"°", 200, 600);
 }
 
 
@@ -50,25 +49,22 @@ void serialEvent(Serial myPort) {
 
   //check for commo
   comma_index = data.indexOf(',');
-  angleX = data.substring(0, comma_index);
+  angleX = int(data.substring(0, comma_index));
 
   //check for dot
   dot_index = data.indexOf('.');
-  angleY = data.substring(comma_index+1, dot_index);
+  angleY = int(data.substring(comma_index+1, dot_index));
 
   //check for \n
-  angleZ = data.substring(dot_index+1, data.length());
+  angleZ = int(data.substring(dot_index+1, data.length()));
   
 } 
 
-
-///////////////////////////Arduino code/////////////////////
 /*
+///////////////////////////Arduino code///////////////////////////
 #include<Wire.h>
-
 long rotX,rotY,rotZ;
 float angleX,angleY,angleZ;
-
 void setup(){
   
   Serial.begin(9600);
@@ -76,11 +72,9 @@ void setup(){
   MPUsetup();
   
 }
-
 void loop(){
   receiveGyro();
 }
-
 void MPUsetup(){
   
   Wire.beginTransmission(0b1101000);
@@ -94,7 +88,6 @@ void MPUsetup(){
   Wire.endTransmission();
   
 }
-
 void receiveGyro(){
   
   Wire.beginTransmission(0b1101000);
@@ -110,7 +103,6 @@ void receiveGyro(){
   processingData();
   
 }
-
 void processingData(){
   
   angleX = rotX/131;
@@ -119,15 +111,17 @@ void processingData(){
   
   printAngle();
 }
-
 void printAngle(){
   
-  Serial.print(angleX);
-  Serial.print("°,");
-  Serial.print(angleY);
-  Serial.print("°.");
-  Serial.print(angleZ);
-  Serial.print("°\n");
-  
+  Serial.print(int(angleX));
+  //Serial.print(",°");
+  Serial.print(",");
+  Serial.print(int(angleY));
+  //Serial.print(".°");
+  Serial.print(".");
+  Serial.print(int(angleZ));
+  //Serial.print("\n°");
+  Serial.print("\n");
+  delay(100);
 }
 */
