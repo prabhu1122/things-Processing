@@ -4,7 +4,7 @@
 import processing.serial.*;
 Serial myPort;
 
-PFont myFont;
+//PFont myFont;
 String angleX = "";
 String angleY = "";
 String angleZ = "";
@@ -20,8 +20,8 @@ void setup() {
   String portName = Serial.list()[0];
   myPort =new Serial(this, portName, 9600);
   myPort.bufferUntil("\n");
-  //myFont = loadFont("");
-  textFont(myFont,80);
+  //myFont = loadFont("font_example.vlw");
+  //textFont(myFont,80);
   
 }
 
