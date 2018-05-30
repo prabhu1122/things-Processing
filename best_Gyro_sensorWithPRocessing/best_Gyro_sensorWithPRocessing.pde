@@ -6,7 +6,9 @@
 *    materials required in Software are Arduino IDE,Processing IDE      *
 *    Author 'prabhat yadav'                                             *
 *    created on 30 may 2018                                             *
-*    uploaded link: 
+*    uploaded link: https://github.com/prabhu1122/things-Processing/    *
+*    edit/master/best_Gyro_sensorWithPRocessing/                        *
+*    best_Gyro_sensorWithPRocessing.pde                                 *
 *///////////////////////////////////////////////////////////////////////*
 
 ////////////////////////Processing Code/////////////////////////////////
@@ -47,29 +49,37 @@ void setup() {
 void draw() {
 
   background(200);
+  
   direction(angleX);                                        //call direction function to show the direction
-  inclination(angleY);                                      //call inclination function to show the height and depth
-  textFont(charFont,30);
-  text("X_Angle:",width*0.02,height*0.25);
-  textFont(numFont,30);
-  text(rotateX,width*0.18,height*0.25);
-  textFont(charFont,30);
-  text("data_Xangle:",width*0.02,height*0.45);
-  textFont(numFont,30);
-  text(angleX,width*0.18,height*0.45);
+  inclination(angleY);
+  
   Shapes();
   danger();
+  
+  //call inclination function to show the height and depth
+  textFont(charFont,30);
+  text("X_Angle: ",width*0.02,height*0.25);
+  textFont(numFont,30);
+  text(rotateX,width*0.18,height*0.25);
+  textFont(charFont,40);
+  text("X-angle: ",width*0.02,height*0.45);
+  textFont(numFont,30);
+  text(angleX,width*0.18,height*0.45);
+  
   stroke(0);
   strokeWeight(4);
   noFill();
   ellipse(width/2,height/2,width-width*0.60,height-height*0.29);
   ellipse(width/2,height/2,width-width*0.648,height-height*0.37);
-  line(width*0.675,height*0.51,width*0.325,height*0.51);
+  
+  line(width*0.675,height*0.51,width*0.325,height*0.51);       //line of the horizon 
   line(width*0.675,height*0.49,width*0.325,height*0.49);
-  strokeWeight(2);
-  line(width*0.5,height*0.15,width*0.5,height*0.85);
+  strokeWeight(2);  
+  
+  line(width*0.5,height*0.15,width*0.5,height*0.85);           //line of vertical 
   
 }
+/////////////////////////////////////////////////////////////////////
 
 //Start the SerialEvent to communicate data and collecting data from arduino
 void serialEvent(Serial myPort) { 
@@ -89,14 +99,15 @@ void serialEvent(Serial myPort) {
   angleZ = int(data.substring(dot_index+1, data.length()));
   
 } 
-
+///////////////////////////////////////////////////////////////////
 void direction(int angle){
   pushMatrix();
   translate(width/2,height/2);
-  //rotateX = map(mouseX,0,width,radians(90),radians(-90));
+  
   rotateX = map(angle,-125,125,-90,90);
   signRotateX= -(rotateX);
   rotate(radians(signRotateX));
+  
   textFont(numFont,20);
   stroke(255,0,0);
   fill(255,0,0);
@@ -125,13 +136,16 @@ void direction(int angle){
     }
   }  
   popMatrix();
+  
   pushMatrix();
   translate(width/2,height/2);
   fill(255);
   noStroke();
   ellipse(width*0.0,height*0.0,width*0.35,height*0.623);
   popMatrix();
+
 }
+//////////////////////////////////////////////////////////////////////////
 
 void inclination(int heightInlcint){
   
@@ -150,7 +164,7 @@ void inclination(int heightInlcint){
 void Shapes(){
  arrowShape(); 
 }
-
+///////////////////////////////////////////////////////////////////////////
 void arrowShape(){
   noStroke();
   fill(255,0,0);
@@ -167,7 +181,7 @@ void arrowShape(){
   vertex(width*0.50, height*0.12);
   endShape();
 }
-
+////////////////////////////////////////////////////////////////////
 void danger(){
  stroke(0);
  strokeWeight(4);
