@@ -6,9 +6,7 @@
 *    materials required in Software are Arduino IDE,Processing IDE      *
 *    Author 'prabhat yadav'                                             *
 *    created on 30 may 2018                                             *
-*    uploaded link: https://github.com/prabhu1122/things-Processing/    *
-*    edit/master/best_Gyro_sensorWithPRocessing/                        *
-*    best_Gyro_sensorWithPRocessing.pde                                 *
+*    uploaded link: 
 *///////////////////////////////////////////////////////////////////////*
 
 ////////////////////////Processing Code/////////////////////////////////
@@ -38,7 +36,7 @@ void setup() {
   smooth(16);
   
   String portName = Serial.list()[3];                    //choose your serial port from list; 
-  myPort =new Serial(this, portName, 9600);               
+  myPort =new Serial(this, portName, 9600);              
   myPort.bufferUntil('\n');                              //Serial port will read upcoming data till '\n' this epecial
                                                          //char are not appeares
   numFont = loadFont("Sylfaen-48.vlw");                  //uploaded fonts for numbers and as wel as charecters
@@ -49,37 +47,31 @@ void setup() {
 void draw() {
 
   background(200);
-  
+  arrowMeter(angleY);
+  heightMeter(angleY);                                            //call function for the measuring the level of height 
   direction(angleX);                                        //call direction function to show the direction
-  inclination(angleY);
-  
-  Shapes();
-  danger();
-  
-  //call inclination function to show the height and depth
+  inclination(angleY);                                      //call inclination function to show the height and depth
   textFont(charFont,30);
-  text("X_Angle: ",width*0.02,height*0.25);
+  text("X_Angle:",width*0.02,height*0.25);
   textFont(numFont,30);
   text(rotateX,width*0.18,height*0.25);
-  textFont(charFont,40);
-  text("X-angle: ",width*0.02,height*0.45);
+  textFont(charFont,30);
+  text("data_Xangle:",width*0.02,height*0.45);
   textFont(numFont,30);
   text(angleX,width*0.18,height*0.45);
-  
+  Shapes();
+  danger();
   stroke(0);
   strokeWeight(4);
   noFill();
   ellipse(width/2,height/2,width-width*0.60,height-height*0.29);
   ellipse(width/2,height/2,width-width*0.648,height-height*0.37);
-  
-  line(width*0.675,height*0.51,width*0.325,height*0.51);       //line of the horizon 
+  line(width*0.675,height*0.51,width*0.325,height*0.51);
   line(width*0.675,height*0.49,width*0.325,height*0.49);
-  strokeWeight(2);  
-  
-  line(width*0.5,height*0.15,width*0.5,height*0.85);           //line of vertical 
+  strokeWeight(2);
+  line(width*0.5,height*0.15,width*0.5,height*0.85);
   
 }
-/////////////////////////////////////////////////////////////////////
 
 //Start the SerialEvent to communicate data and collecting data from arduino
 void serialEvent(Serial myPort) { 
@@ -99,15 +91,14 @@ void serialEvent(Serial myPort) {
   angleZ = int(data.substring(dot_index+1, data.length()));
   
 } 
-///////////////////////////////////////////////////////////////////
+
 void direction(int angle){
   pushMatrix();
   translate(width/2,height/2);
-  
+  //rotateX = map(mouseX,0,width,radians(90),radians(-90));
   rotateX = map(angle,-125,125,-90,90);
   signRotateX= -(rotateX);
   rotate(radians(signRotateX));
-  
   textFont(numFont,20);
   stroke(255,0,0);
   fill(255,0,0);
@@ -136,16 +127,13 @@ void direction(int angle){
     }
   }  
   popMatrix();
-  
   pushMatrix();
   translate(width/2,height/2);
   fill(255);
   noStroke();
   ellipse(width*0.0,height*0.0,width*0.35,height*0.623);
   popMatrix();
-
 }
-//////////////////////////////////////////////////////////////////////////
 
 void inclination(int heightInlcint){
   
@@ -164,7 +152,7 @@ void inclination(int heightInlcint){
 void Shapes(){
  arrowShape(); 
 }
-///////////////////////////////////////////////////////////////////////////
+
 void arrowShape(){
   noStroke();
   fill(255,0,0);
@@ -181,11 +169,87 @@ void arrowShape(){
   vertex(width*0.50, height*0.12);
   endShape();
 }
-////////////////////////////////////////////////////////////////////
+
+void heightMeter(int AngleY){
+  
+  pushMatrix();
+  //translate(width-width*0.20,height-height*0.138);
+  translate(width-width*0.20,height-height*0.5);
+  float depthAngle = 0;
+  
+  depthAngle = map(AngleY,-100,100,(height-height*0.685),-(height-height*0.685));
+  //depthAngle = map(mouseY,0,height,-(height-height*0.685),(height-height*0.685));                        //mapning the value
+  rectMode(CORNER);
+  fill(#E477FA);
+  noStroke();
+  rect(-width*0.01,0,width-width*.98,depthAngle);
+  line(0,-(height-height*0.685),-width*.01,-(height-height*0.685));                                      //border lines of data meter
+  line(0,(height-height*0.685),-width*.01,(height-height*0.685));
+  fill(255,0,0);
+  rectMode(CENTER);
+  stroke(0);
+  rect(0,(height-height*0.66),width-width*.98,(height-height*0.63)-(height-height*0.685),0,0,20,20);     //down red part of meter
+  stroke(0);
+  rect(0,-(height-height*0.66),width-width*.98,(height-height*0.63)-(height-height*0.685),20,20,0,0);    //upper red part of meter
+  stroke(0);
+  strokeWeight(2);
+  rectMode(CENTER);
+  noFill();                                
+  line(-(width-width*0.985),0,-(width-width*.960),0);                                                    //middle point
+                                            //data part of height meter
+  rectMode(CENTER);
+  noFill();
+  stroke(0);
+  rect(0,0,width-width*.98,2*(height-height*0.685));                                       //upper part or background of data slider meter
+  popMatrix();
+  
+}
+
+
+void arrowMeter(int angleArrow){
+  pushMatrix();
+  //translate(width-width*0.20,height-height*0.138);
+  translate(width-width*0.28,height-height*0.5);
+  float meterHeight = map(angleArrow,-100,100,(height-height*0.685),-(height-height*0.685));
+  //float meterHeight = map(mouseY,0,height,-(height-height*0.685),(height-height*0.685));
+  
+  //code for arrowMeter 
+  
+  beginShape();
+  noStroke();
+  fill(255,0,0);
+  vertex(width-width*0.87,-(height-height*0.98)+meterHeight);
+  vertex(width-width*0.88,meterHeight);
+  vertex(width-width*0.908,meterHeight);
+  endShape();
+  
+  beginShape();
+  noStroke();
+  fill(255,0,0,150);
+  vertex(width-width*0.87,(height-height*0.98)+meterHeight);
+  vertex(width-width*0.88,meterHeight);
+  vertex(width-width*0.908,meterHeight);
+  endShape();
+  rectMode(CENTER);
+  fill(255,0,0);
+  rect(width-width*0.833,meterHeight,100,30);
+  rectMode(CENTER);
+  fill(255,255,255);
+  rect(width-width*0.833,meterHeight,60,28);
+  textFont(charFont);
+  stroke(0);
+  fill(0);
+  textSize(20);
+  text(angleY+"°",width-width*0.845,meterHeight+10);
+  popMatrix();
+}
+
+/////////////////////////////////////////////////////////////
 void danger(){
  stroke(0);
  strokeWeight(4);
  if(signRotateX>60 || signRotateX<-60){
+   
     fill(255,0,0); 
   }
   else{
