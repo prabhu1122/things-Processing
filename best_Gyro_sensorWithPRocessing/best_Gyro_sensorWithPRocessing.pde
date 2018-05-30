@@ -36,7 +36,7 @@ void setup() {
   smooth(16);
   
   String portName = Serial.list()[3];                    //choose your serial port from list; 
-  myPort =new Serial(this, portName, 9600);              
+  myPort =new Serial(this, portName, 9600);               
   myPort.bufferUntil('\n');                              //Serial port will read upcoming data till '\n' this epecial
                                                          //char are not appeares
   numFont = loadFont("Sylfaen-48.vlw");                  //uploaded fonts for numbers and as wel as charecters
