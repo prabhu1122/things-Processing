@@ -6,7 +6,9 @@
 *    materials required in Software are Arduino IDE,Processing IDE      *
 *    Author 'prabhat yadav'                                             *
 *    created on 30 may 2018                                             *
-*    uploaded link: 
+*    uploaded link: "https://github.com/prabhu1122/things-Processing/   *
+*                    blob/master/best_Gyro_sensorWithPRocessing/        *
+*                    best_Gyro_sensorWithPRocessing.pde"                *
 *///////////////////////////////////////////////////////////////////////*
 
 ////////////////////////Processing Code/////////////////////////////////
