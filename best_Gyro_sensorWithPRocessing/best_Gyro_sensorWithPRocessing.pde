@@ -16,6 +16,7 @@ Serial myPort;                  //Create an object for Serial
 
 PFont numFont;                  //create objects for fonts
 PFont charFont;
+PFont logoFont;
 int angleX = 0;
 int angleY = 0;
 int angleZ = 0;
@@ -27,12 +28,9 @@ float signRotateY = 0;
 String data = "";
 int comma_index = 0;
 int dot_index = 0;
-int size = 80;
 
 void setup() {
-
-  size(displayWidth,displayHeight);
-  //orientation(LANDSCAPE);
+  size(800,450);                                    //***************SIZE MUST BE IN THE "2:1" FOR BEST LOOK*******************//
   smooth(16);
   
   String portName = Serial.list()[3];                    //choose your serial port from list; 
@@ -41,35 +39,20 @@ void setup() {
                                                          //char are not appeares
   numFont = loadFont("Sylfaen-48.vlw");                  //uploaded fonts for numbers and as wel as charecters
   charFont = loadFont("ComicSansMS-Bold-48.vlw");
-  
+  logoFont = loadFont("AngsanaNew-Bold-48.vlw");
 }
 
 void draw() {
 
   background(200);
+  
   arrowMeter(angleY);
   heightMeter(angleY);                                            //call function for the measuring the level of height 
-  direction(angleX);                                        //call direction function to show the direction
-  inclination(angleY);                                      //call inclination function to show the height and depth
-  textFont(charFont,30);
-  text("X_Angle:",width*0.02,height*0.25);
-  textFont(numFont,30);
-  text(rotateX,width*0.18,height*0.25);
-  textFont(charFont,30);
-  text("data_Xangle:",width*0.02,height*0.45);
-  textFont(numFont,30);
-  text(angleX,width*0.18,height*0.45);
-  Shapes();
-  danger();
-  stroke(0);
-  strokeWeight(4);
-  noFill();
-  ellipse(width/2,height/2,width-width*0.60,height-height*0.29);
-  ellipse(width/2,height/2,width-width*0.648,height-height*0.37);
-  line(width*0.675,height*0.51,width*0.325,height*0.51);
-  line(width*0.675,height*0.49,width*0.325,height*0.49);
-  strokeWeight(2);
-  line(width*0.5,height*0.15,width*0.5,height*0.85);
+  tilt(angleX);                                              //call direction function to show the tilt
+  inclination(angleY);                                            //call inclination function to show the height and depth
+  Shapes();                                                       
+  basePart();
+  danger();                                                 //red dot indicate the tilting more than 60 dregree
   
 }
 
@@ -92,60 +75,58 @@ void serialEvent(Serial myPort) {
   
 } 
 
-void direction(int angle){
+void tilt(int angle){
   pushMatrix();
-  translate(width/2,height/2);
-  //rotateX = map(mouseX,0,width,radians(90),radians(-90));
+  translate(width-width/2,height-height/2);
   rotateX = map(angle,-125,125,-90,90);
   signRotateX= -(rotateX);
   rotate(radians(signRotateX));
-  textFont(numFont,20);
+  textFont(numFont,15);
   stroke(255,0,0);
   fill(255,0,0);
-  text("0°",-width*0.004,-height*.330);
-  text("90°",width*0.180,height*0.010);
-  text("-90°",-width*0.200,height*0.010);
-  text("180°",-width*0.01,height*.340);
+  text("0°",-(width-width*0.996),-(height-height*.67));
+  text("90°",width-width*0.82,height-height*0.99);
+  text("-90°",-(width-width*0.8),height-height*0.99);
+  text("180°",-(width-width*0.99),height-height*.66);
   
-  rotate(radians(-90));
   fill(255);
   for(int i = 0;i <= 360;i+=6){
     int a = i%30;
     int b = i%90;
     if(a==0){
       if(b!=0){
-        strokeWeight(16);
+        strokeWeight(8);
         stroke(255,0,0);
       }  
     }
     else{
-      strokeWeight(8);
-      stroke(255,255,0);
+      strokeWeight(4);
+      stroke(100,100,255);
     }
     if(b!=0){
-      point(257*cos(radians(i)),257*sin(radians(i)));
+      point((width-width*0.813)*cos(radians(i)),(height-height*0.665)*sin(radians(i)));
     }
   }  
   popMatrix();
   pushMatrix();
-  translate(width/2,height/2);
+  translate(width-width/2,height-height/2);
   fill(255);
   noStroke();
-  ellipse(width*0.0,height*0.0,width*0.35,height*0.623);
+  ellipse(width-width*0.0,height-height*0.0,width-width*0.65,height-height*0.377);
   popMatrix();
 }
 
 void inclination(int heightInlcint){
   
   pushMatrix();
-  translate(width/2,height/2);
+  translate(width-width/2,height-height/2);
   rotateY = map(heightInlcint,-125,125,-90,90);
   signRotateY= -(rotateY);
-  rotate(radians(-90));
+  //rotate(radians(-90));
   fill(#D25A0F);
   noStroke();
   strokeWeight(4);
-  arc(width*0.0,height*0.0,width*.352,height*0.625,radians(90+signRotateX+signRotateY),radians(270+signRotateX-signRotateY),OPEN);
+  arc(width*0.0,height*0.0,width-width*.648,height-height*0.375,radians(0+signRotateX+signRotateY),radians(180+signRotateX-signRotateY),OPEN);
   popMatrix();
 }
 
@@ -157,16 +138,16 @@ void arrowShape(){
   noStroke();
   fill(255,0,0);
   beginShape(TRIANGLES);
-  vertex(width*0.51, height*0.03);
-  vertex(width*0.50, height*0.05);
-  vertex(width*0.50, height*0.12);
+  vertex(width-width*0.49, height-height*0.97);
+  vertex(width-width*0.50, height-height*0.95);
+  vertex(width-width*0.50, height-height*0.88);
   endShape();
   
   beginShape(TRIANGLES);
   fill(255,0,0,150);
-  vertex(width*0.49, height*0.03);
-  vertex(width*0.50, height*0.05);
-  vertex(width*0.50, height*0.12);
+  vertex(width-width*0.51, height-height*0.97);
+  vertex(width-width*0.50, height-height*0.95);
+  vertex(width-width*0.50, height-height*0.88);
   endShape();
 }
 
@@ -208,13 +189,13 @@ void heightMeter(int AngleY){
 
 void arrowMeter(int angleArrow){
   pushMatrix();
-  //translate(width-width*0.20,height-height*0.138);
   translate(width-width*0.28,height-height*0.5);
-  float meterHeight = map(angleArrow,-100,100,(height-height*0.685),-(height-height*0.685));
+  
   //float meterHeight = map(mouseY,0,height,-(height-height*0.685),(height-height*0.685));
+  float horizonAngle = map(angleArrow,-125,125,-90,90);
+  float meterHeight = map(horizonAngle,-100,100,(height-height*0.685),-(height-height*0.685));
   
   //code for arrowMeter 
-  
   beginShape();
   noStroke();
   fill(255,0,0);
@@ -230,17 +211,19 @@ void arrowMeter(int angleArrow){
   vertex(width-width*0.88,meterHeight);
   vertex(width-width*0.908,meterHeight);
   endShape();
+  
+  ////////////////meter box of Y_angle///////////////////////
   rectMode(CENTER);
   fill(255,0,0);
-  rect(width-width*0.833,meterHeight,100,30);
+  rect(width-width*0.833,meterHeight,width-width*0.925,height-height*0.962);
   rectMode(CENTER);
   fill(255,255,255);
-  rect(width-width*0.833,meterHeight,60,28);
+  rect(width-width*0.833,meterHeight,width-width*0.95,height-height*0.975);
   textFont(charFont);
   stroke(0);
   fill(0);
-  textSize(20);
-  text(angleY+"°",width-width*0.845,meterHeight+10);
+  textSize(15);
+  text(angleY+"°",width-width*0.845,meterHeight+5);
   popMatrix();
 }
 
@@ -255,7 +238,38 @@ void danger(){
   else{
      fill(255);
   }
- ellipse(100,100,20,20);
+ ellipse(width*0.5,height*0.5,20,20);
+}
+
+void basePart(){
+  fill(#5A25F2);
+  textFont(logoFont,35); 
+  text("MPU6050 GYROSENSOR & ACCELEROMETER",width-width*0.82,height-height*0.05);
+  stroke(#5A25F2);
+  line(width-width*0.83,height-height*0.04,width-width*.17,height-height*0.03);
+  fill(#74FF8C);
+  textFont(charFont,20); 
+  text("X-Angle:",width-width*0.98,height-height*0.20);   //texts for the inclination along X-axis
+  fill(#FF74DD);
+  textFont(numFont,20);
+  text(rotateX,width-width*0.85,height-height*0.20);
+  textFont(charFont,20);
+  fill(#74FF8C);
+  text("Y-Angle:",width-width*0.98,height-height*0.15);    //texts for the inclination along Y-axis
+  fill(#FF74DD);
+  textFont(numFont,20);
+  text(angleY,width-width*0.85,height-height*0.15);
+  stroke(0);
+  strokeWeight(4);
+  noFill();
+  ellipse(width-width*0.5,height-height*0.5,width-width*0.60,height-height*0.29);          //outer cirlce of the ring
+  ellipse(width-width*0.5,height-height*0.5,width-width*0.648,height-height*0.37);         //inner circle of the ring
+  line(width-width*0.325,height-height*0.49,width-width*0.675,height-height*0.49);         //upper line of the horizon
+  line(width-width*0.325,height-height*0.51,width-width*0.675,height-height*0.51);         //lower part of horizon
+  strokeWeight(2);
+  line(width-width*0.5,height-height*0.85,width-width*0.5,height-height*0.15);             //vertical line of the ring
+   
+  
 }
 
 /*
