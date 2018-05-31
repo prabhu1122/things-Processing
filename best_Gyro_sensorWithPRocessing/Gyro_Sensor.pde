@@ -8,7 +8,7 @@
 *    created on 30 may 2018                                             *
 *    uploaded link: "https://github.com/prabhu1122/things-Processing/   *
 *                    blob/master/best_Gyro_sensorWithPRocessing/        *
-*                    Gyro_Sensor.pde"                *
+*                    Gyro_Sensor.pde"                                   *
 *///////////////////////////////////////////////////////////////////////*
 
 ////////////////////////Processing Code/////////////////////////////////
