@@ -16,6 +16,8 @@
 import processing.serial.*;     //import library for Serial
 Serial myPort;                  //Create an object for Serial
 
+Angle_Scale as;
+
 PFont numFont;                  //create objects for fonts
 PFont charFont;
 PFont logoFont;
@@ -42,6 +44,8 @@ void setup() {
   numFont = loadFont("Sylfaen-48.vlw");                  //uploaded fonts for numbers and as wel as charecters
   charFont = loadFont("ComicSansMS-Bold-48.vlw");
   logoFont = loadFont("AngsanaNew-Bold-48.vlw");
+  
+  as = new Angle_Scale();
 }
 
 void draw() {
@@ -55,6 +59,7 @@ void draw() {
   Shapes();                                                       
   basePart(angleY);
   danger();                                                 //red dot indicate the tilting more than 60 dregree
+  as.meterLines();
 }
 
 //Start the SerialEvent to communicate data and collecting data from arduino
