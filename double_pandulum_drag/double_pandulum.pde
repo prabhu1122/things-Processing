@@ -5,18 +5,20 @@
 //                                  Written by:Prabhat Yadav                                           //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
  float x, y, x1, y1, x2, y2;
- int l1 = 500;
- int l2 = 500;
+ int l1 = 300;
+ int l2 = 300;
  float angle1 = PI/2;  
  float angle2 = PI/3;
- int mass1 = 100;
- int mass2 = 100;   
+ int mass1 = 80;
+ int mass2 = 80;   
  float aAcc1 = 0.0;
  float aVel1 = 0.0;
  float aAcc2 = 0.0;
  float aVel2 = 0.0;
  float px2 = -1;
  float py2 = -1;
+ float px1 = -1;
+ float py1 = -1;
  float cx = 0.0;
  float cy = 0.0; 
  float g = .89; 
@@ -27,11 +29,11 @@
  PGraphics canvas; 
  
  void setup() { 
-   size(displayWidth, displayHeight); 
+size(displayWidth, displayHeight);
+   surface.setResizable(true);
    cx = width/2; 
    cy = 50; 
-   fill(150);
-   //orientation(LANDSCAPE);
+   fill(200);
    canvas = createGraphics(displayWidth, displayHeight); 
    canvas.beginDraw(); 
    canvas.background(255); 
@@ -57,7 +59,7 @@
 
    image(canvas,0,0); 
    stroke(0); 
-   strokeWeight(8); 
+   strokeWeight(4); 
    translate(cx,cy);
    
    dragging();
@@ -68,7 +70,7 @@
    y2 = y1 + l2*cos(angle2); 
    
    ellipse(x, y, 5, 5); 
-   fill(150);
+   fill(200);
    if(drag2&&!drag1)
      fill(0); 
      line(x1, y1, x2, y2); 
@@ -79,18 +81,25 @@
      ellipse(x1, y1, mass1, mass1); 
    
    canvas.beginDraw(); 
-   canvas.translate(cx,cy); 
-   canvas.stroke(255,0,0); 
-   canvas.strokeWeight(2); 
+   canvas.translate(cx,cy);
+   canvas.strokeWeight(8); 
    if(frameCount>1){ 
+     canvas.stroke(#B91DF2);
      canvas.line(px2,py2,x2,y2);
+     canvas.stroke(#1DF250);
+     canvas.line(px1,py1,x1,y1);
    } 
+   canvas.fill(200,30);
+   canvas.noStroke();
+   canvas.rect(-width/2,-50,width,height);
    canvas.endDraw(); 
+   px1 = x1;
+   py1 = y1;
    px2 = x2; 
    py2 = y2;
 }
 
-void noDragging(int mX,int mY){
+void noDragging(){
     aVel1 = 0;
     drag1 = false;
     aVel2 = 0;
@@ -125,11 +134,15 @@ void dragging(){
     angle2 = atan2(-yD_2,xD_2)-radians(90);
     }
     else{
+      go();
+    }
+}
+
+void go(){
       aVel1 += aAcc1; 
       angle1 += aVel1; 
       aVel2 += aAcc2; 
-      angle2 += aVel2; 
-    }
+      angle2 += aVel2;
 }
 
 void mousePressed(){
@@ -138,6 +151,5 @@ void mousePressed(){
 }
 
 void mouseReleased(){
-  
-  noDragging(mouseX,mouseY);
+    noDragging();
 }
