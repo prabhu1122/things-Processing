@@ -1,3 +1,13 @@
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//               *******************Code for Double Pendulum********************             //                   
+//                             source for help is "The coding train"                         //
+//  and formules from link:"https://www.myphysicslab.com/pendulum/double-pendulum-en.html"   //
+//                                   Written by:Prabhat Yadav                                //
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+
 float m;
 float x = 300;
 float y = 300;
